@@ -15,6 +15,14 @@ const initialState: IinitialState = {
       isCompleted: false,
       priority: "High",
     },
+    {
+      id: "2dsf34",
+      title: "Init Typescript",
+      description: "Create Home page and Routing Using Typescript",
+      dueDate: "11-2-2025",
+      isCompleted: false,
+      priority: "High",
+    },
   ],
   filter: "all",
 };

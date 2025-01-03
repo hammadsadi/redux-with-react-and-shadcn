@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 
 const Layouts = () => {
   return (
-    <div>
+    <div className="max-w-4xl mx-auto">
       <Navbar />
       <Outlet />
     </div>
