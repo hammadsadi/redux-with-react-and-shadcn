@@ -12,7 +12,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,13 +31,17 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { addTask } from "@/redux/features/task/taskSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 export function AddTaskModal() {
   const form = useForm();
+  const dispatch = useAppDispatch();
   const onSubmit = (data) => {
+    dispatch(addTask(data));
     console.log(data);
   };
   return (
@@ -95,9 +98,9 @@ export function AddTaskModal() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="high">High</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="High">High</SelectItem>
+                      <SelectItem value="Medium">Medium</SelectItem>
+                      <SelectItem value="Low">Low</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>
