@@ -28,9 +28,17 @@ const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {
-    addTask: (state, action: PayloadAction<TTaskInitType>) => {
+    addTask: (state, action: PayloadAction<TDraftTask>) => {
       const taskData = modifyTask(action.payload);
       state.tasks.push(taskData);
+    },
+    updateTask: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
+      state.tasks.forEach((task) =>
+        task.id === action.payload
+          ? (task.isCompleted = !task.isCompleted)
+          : task
+      );
     },
   },
 });
@@ -46,6 +54,6 @@ export const filterSelector = (state: RootState) => {
 };
 
 // Export Action
-export const { addTask } = taskSlice.actions;
+export const { addTask, updateTask } = taskSlice.actions;
 
 export default taskSlice.reducer;

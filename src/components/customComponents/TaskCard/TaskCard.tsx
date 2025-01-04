@@ -2,12 +2,18 @@ import { FaTrashAlt } from "react-icons/fa";
 import { TTaskInitType } from "@/types/types";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useAppDispatch } from "@/redux/hooks";
+import { updateTask } from "@/redux/features/task/taskSlice";
 
 interface ITask {
   task: TTaskInitType;
 }
 
 const TaskCard = ({ task }: ITask) => {
+  const dispatch = useAppDispatch();
+  const handleUpdateStatus = (id: string) => {
+    dispatch(updateTask(id));
+  };
   return (
     <div className="border p-3 rounded">
       <div className="flex justify-between mb-4">
@@ -24,7 +30,7 @@ const TaskCard = ({ task }: ITask) => {
         {/* Status */}
         <div className="flex items-center gap-1">
           <FaTrashAlt className="text-rose-700 cursor-pointer" />
-          <Checkbox />
+          <Checkbox onClick={() => handleUpdateStatus(task.id)} />
         </div>
       </div>
       <p>{task?.description}</p>
