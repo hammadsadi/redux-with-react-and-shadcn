@@ -3,7 +3,7 @@ import { TTaskInitType } from "@/types/types";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAppDispatch } from "@/redux/hooks";
-import { updateTask } from "@/redux/features/task/taskSlice";
+import { deleteTask, updateTask } from "@/redux/features/task/taskSlice";
 
 interface ITask {
   task: TTaskInitType;
@@ -25,11 +25,16 @@ const TaskCard = ({ task }: ITask) => {
               "bg-yellow-600": task.priority === "Medium",
             })}
           ></div>
-          <h2>{task?.title}</h2>
+          <h2 className={cn({ "line-through": task.isCompleted })}>
+            {task?.title}
+          </h2>
         </div>
         {/* Status */}
         <div className="flex items-center gap-1">
-          <FaTrashAlt className="text-rose-700 cursor-pointer" />
+          <FaTrashAlt
+            onClick={() => dispatch(deleteTask(task.id))}
+            className="text-rose-700 cursor-pointer"
+          />
           <Checkbox onClick={() => handleUpdateStatus(task.id)} />
         </div>
       </div>
