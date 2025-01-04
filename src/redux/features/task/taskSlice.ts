@@ -1,27 +1,35 @@
 import { RootState } from "@/redux/store";
 import { TTaskInitType } from "./../../../types/types";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
+import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 interface IinitialState {
   tasks: TTaskInitType[];
   filter: "all" | "heigh" | "medium" | "low";
 }
+// Create type for task payload
+type TDraftTask = Pick<
+  TTaskInitType,
+  "title" | "description" | "dueDate" | "priority"
+>;
 const initialState: IinitialState = {
   tasks: [],
   filter: "all",
+};
+
+// Create Function for modefied Data for adding Task
+const modifyTask = (taskData: TDraftTask): TTaskInitType => {
+  return {
+    id: nanoid(),
+    isCompleted: false,
+    ...taskData,
+  };
 };
 const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {
     addTask: (state, action: PayloadAction<TTaskInitType>) => {
-      const id = uuidv4();
-      const taskData = {
-        ...action.payload,
-        id,
-        isCompleted: false,
-      };
+      const taskData = modifyTask(action.payload);
       state.tasks.push(taskData);
     },
   },
