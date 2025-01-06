@@ -5,6 +5,7 @@ export type TTaskInitType = {
   dueDate: string;
   isCompleted: boolean;
   priority: "High" | "Medium" | "Low";
+  assignTo: string | null;
 };
 
 export type TUserInfo = {

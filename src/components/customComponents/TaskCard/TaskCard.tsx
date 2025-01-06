@@ -2,7 +2,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import { TTaskInitType } from "@/types/types";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelectopr } from "@/redux/hooks";
 import { deleteTask, updateTask } from "@/redux/features/task/taskSlice";
 
 interface ITask {
@@ -10,10 +10,12 @@ interface ITask {
 }
 
 const TaskCard = ({ task }: ITask) => {
+  const { users } = useAppSelectopr((state) => state.userList);
   const dispatch = useAppDispatch();
   const handleUpdateStatus = (id: string) => {
     dispatch(updateTask(id));
   };
+  const assignUser = users.find((user) => user.id === task.assignTo);
   return (
     <div className="border p-3 rounded">
       <div className="flex justify-between mb-4">
@@ -38,6 +40,7 @@ const TaskCard = ({ task }: ITask) => {
           <Checkbox onClick={() => handleUpdateStatus(task.id)} />
         </div>
       </div>
+      <h4>Assign To : {assignUser ? assignUser.userName : "No One"}</h4>
       <p>{task?.description}</p>
     </div>
   );
