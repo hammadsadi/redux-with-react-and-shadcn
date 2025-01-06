@@ -1,6 +1,7 @@
 import { RootState } from "@/redux/store";
 import { TTaskInitType } from "./../../../types/types";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import { deleteUser } from "../user/userSlice";
 
 interface IinitialState {
   tasks: TTaskInitType[];
@@ -9,7 +10,7 @@ interface IinitialState {
 // Create type for task payload
 type TDraftTask = Pick<
   TTaskInitType,
-  "title" | "description" | "dueDate" | "priority"
+  "title" | "description" | "dueDate" | "priority" | "assignTo"
 >;
 const initialState: IinitialState = {
   tasks: [],
@@ -19,9 +20,10 @@ const initialState: IinitialState = {
 // Create Function for modefied Data for adding Task
 const modifyTask = (taskData: TDraftTask): TTaskInitType => {
   return {
+    ...taskData,
     id: nanoid(),
     isCompleted: false,
-    ...taskData,
+    assignTo: taskData.assignTo ? taskData.assignTo : null,
   };
 };
 const taskSlice = createSlice({
@@ -49,6 +51,14 @@ const taskSlice = createSlice({
     ) => {
       state.filter = action.payload;
     },
+  },
+  // Extra Reducer for Dependance Actions
+  extraReducers: (builder) => {
+    builder.addCase(deleteUser, (state, action) => {
+      state.tasks.forEach((task) =>
+        task.assignTo === action.payload ? (task.assignTo = null) : task
+      );
+    });
   },
 });
 
